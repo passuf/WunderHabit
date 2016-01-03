@@ -1,0 +1,110 @@
+{% extends "wunderhabit/base.html" %}
+{% load i18n %}{% load bootstrap3 %}
+
+{% block body %}
+    <div class="page-header">
+        {% blocktrans with wunderlist=request.user.wunderlist.email habitica=request.user.habitica.email %}
+            <h1>WunderHabit</h1>
+            <p class="lead">
+                Up-scores your habits on
+                <a href="https://habitica.com" data-toggle="tooltip" data-placement="bottom" title="{{ habitica }}">
+                    Habitica
+                </a>
+                when you complete tasks in selected
+                <a href="https://wunderlist.com" data-toggle="tooltip" data-placement="bottom" title="{{ wunderlist }}">
+                    Wunderlist
+                </a>
+                lists.
+            </p>
+        {% endblocktrans %}
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <h3>{% trans "Your Connected Lists" %}</h3>
+            {% url 'add' as add_connection %}
+            {% if connections %}
+                <table class="table table-striped">
+                    <tr>
+                        <th>{% trans "Todo List" %}</th>
+                        <th>{% trans "Habit" %}</th>
+                        <th>{% trans "Tasks Completed" %}</th>
+                        <th>{% trans "Last Activity" %}</th>
+                        <th>{% trans "Options" %}</th>
+                    </tr>
+                    {% for connection in connections %}
+                        <tr>
+                            <td>{{ connection.list_title }}</td>
+                            <td>{{ connection.habit }}</td>
+                            <td>{{ connection.tasks_completed }}</td>
+                            <td>
+                                {% if connection.last_upscored %}
+                                    {{ connection.last_upscored }}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                            <td><a href="{% url 'delete' connection_id=connection.id %}" class="text-danger"><i
+                                    class="fa fa-times"></i> {% trans "Remove" %}</a></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                {% blocktrans %}
+                    <p>
+                        You do not have any connections yet.
+                    </p>
+                {% endblocktrans %}
+            {% endif %}
+
+            <br>
+
+            <form action="{% url 'add' %}" method="post" class="form-inline">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                <input type="submit" value="{% trans "Create Connection" %}" class="btn btn-primary btn-sm"/>
+            </form>
+            <br>
+            <p>
+                Add a connection by selecting a list from Wunderlist and a habit from Habitica.
+                If the habit does not exist, it will be created for you.
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <h3>{% trans "Settings" %}</h3>
+            <p>
+                {% url 'logout' as logout_url %}
+                {% blocktrans %}
+                    <a href="{{ logout_url }}" class="btn btn-default btn-sm">Log out</a>
+                {% endblocktrans %}
+            </p>
+            <p>
+                {% url 'test_authentication' as test_auth_url %}
+                {% blocktrans %}
+                    <a href="{{ test_auth_url }}" class="btn btn-default btn-sm">Test connection to Wunderlist and
+                        Habitica</a>
+                {% endblocktrans %}
+            </p>
+
+
+            <p>
+                {% url 'delete_account' as delete_account_url %}
+                {% blocktrans %}
+                    <a href="{{ delete_account_url }}" class="text-danger">Delete Account</a>
+                {% endblocktrans %}
+            </p>
+        </div>
+    </div>
+{% endblock body %}
+
+
+{% block javascript %}
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+{% endblock javascript %}

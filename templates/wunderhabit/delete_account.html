@@ -1,0 +1,35 @@
+{% extends "wunderhabit/base.html" %}
+{% load i18n %}
+
+{% block body %}
+    <div class="page-header">
+        {% blocktrans with wunderlist=request.user.wunderlist.email habitica=request.user.habitica.email %}
+            <h1>WunderHabit</h1>
+            <p class="lead">
+                Up-scores your habits on
+                <a href="https://habitica.com" data-toggle="tooltip" data-placement="bottom" title="{{ habitica }}">
+                    Habitica
+                </a>
+                when you complete tasks in selected
+                <a href="https://wunderlist.com" data-toggle="tooltip" data-placement="bottom" title="{{ wunderlist }}">
+                    Wunderlist
+                </a>
+                lists.
+            </p>
+        {% endblocktrans %}
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h2>{% trans "Delete Account" %}</h2>
+            <p>{% trans "Are you sure you want to delete your WunderHabit account and all connections between Wunderlist and Habitica?" %}</p>
+            <p>{% trans "Your Wunderlist account and Habitica account are not affected." %}</p>
+            <form action="{% url 'delete_account' %}" method="post">
+                {% csrf_token %}
+                <a href="{% url 'dashboard' %}" class="btn btn-default btn-sm">{% trans "Cancel" %}</a>
+                <input type="submit" class="btn btn-danger btn-sm" value="{% trans "Delete Account" %}"/>
+            </form>
+        </div>
+    </div>
+
+{% endblock body %}

@@ -1,0 +1,66 @@
+{% extends "wunderhabit/base.html" %}
+{% load i18n %}
+
+{% block body %}
+    <div class="jumbotron">
+        {% url 'wunderlist:auth' as wunderlist_auth %}
+        {% blocktrans %}
+            <h1>WunderHabit</h1>
+            <p class="lead">
+                Level up in <a href="https://habitica.com">Habitica</a> by completing todo's in
+                <a href="https://wunderlist.com">Wunderlist</a>.
+            </p>
+            <p>
+                <br>
+                <a href="{{ wunderlist_auth }}" class="btn btn-success">Connect with Wunderlist</a>
+            </p>
+        {% endblocktrans %}
+    </div>
+
+    <h2>{% trans "How it works" %}</h2>
+
+    <h3>{% trans "1. Connect with Wunderlist" %}</h3>
+    {% blocktrans %}
+        <p>
+            To get started, please <a href="{{ wunderlist_auth }}">log in</a> using your Wunderlist account and allow
+            WunderHabit to get access to your lists and tasks. <br>
+            If you want to revoke the access, you can do this <a href="https://www.wunderlist.com/account/applications">here</a>,
+            and WunderHabit will no longer receive updates on your productivity.
+        </p>
+    {% endblocktrans %}
+
+    <h3>{% trans "2. Connect with Habitica" %}</h3>
+    {% blocktrans %}
+        <p>
+            To update your habits on Habitica, WunderHabit needs your <i>User ID</i> and <i>API Token</i>.
+            You can find them in <a href="https://habitica.com/#/options/settings/api">Habitica > Settings > API</a>.
+        </p>
+    {% endblocktrans %}
+
+    <h3>{% trans "3. Select Lists and Connect Them with Habits" %}</h3>
+    {% blocktrans %}
+        <p>
+            You can choose which Wunderlist lists should be watched by WunderHabit and which Habitica habits should be
+            up-scored. <br>
+            For example, every time you complete a task from the list <i>Work</i>, the habit <i>productivity</i> is
+            up-scored.
+        </p>
+        <p>
+            You can always remove connections between lists and habits and even delete all data related to your
+            WunderHabit account.
+        </p>
+    {% endblocktrans %}
+
+    <br>
+
+    <h2>{% trans "WunderHabit for Developers" %}</h2>
+    {% blocktrans %}
+        <p>
+            WunderHabit is open-source and available on GitHub, which means you can contribute to the code and even run it on your own server if you like.
+        </p>
+        <p>
+            If you find any bugs or want to ask a question, please create a GitHub issue.
+        </p>
+    {% endblocktrans %}
+
+{% endblock body %}

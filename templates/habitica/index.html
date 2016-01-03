@@ -1,0 +1,34 @@
+{% extends "wunderhabit/base.html" %}
+{% load i18n %}{% load bootstrap3 %}
+
+{% block body %}
+    <div class="page-header">
+        {% blocktrans %}
+            <h1>WunderHabit</h1>
+            <p class="lead">
+                Level up in <a href="https://habitica.com">Habitica</a> by completing todo's in
+                <a href="https://wunderlist.com">Wunderlist</a>.
+            </p>
+        {% endblocktrans %}
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h2>{% trans "Connect with Habitica" %}</h2>
+            {% blocktrans %}
+                <p>
+                    To update your habits on Habitica, WunderHabit needs your <i>User ID</i> and <i>API Token</i>. <br>
+                    You can find them in <a href="https://habitica.com/#/options/settings/api" target="_blank">
+                    Habitica > Settings > API</a>.
+                </p>
+            {% endblocktrans %}
+            <form action="{% url 'habitica:index' %}" method="post">
+                {% csrf_token %}
+                {% bootstrap_form form layout='inline' %}
+                <a href="{% url 'logout' %}" class="btn btn-default btn-sm">{% trans "Cancel" %}</a>
+                <input type="submit" value="{% trans "Connect with Habtica" %}" class="btn btn-primary"/>
+            </form>
+
+        </div>
+    </div>
+{% endblock body %}

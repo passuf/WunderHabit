@@ -1,0 +1,21 @@
+{% extends "wunderhabit/base.html" %}
+{% load i18n %}
+
+{% block body %}
+    <h1>{% trans "Check Webhooks" %}</h1>
+    {% if user.wunderlist %}
+        <p>{% trans "Connected with Wunderlist " %}({{ user.wunderlist.email }})</p>
+        <h2>{% trans "Lists" %}</h2>
+        <ul>
+            {% for list in lists %}
+                <li>{{ list.title }} ({{ list.id }})</li>
+            {% endfor %}
+        </ul>
+        <h2>{% trans "Webhooks" %}</h2>
+        <ul>
+            {% for webhook in webhooks %}
+                <li>{{ webhook.id }} - {{ webhook.url }} ({{ webhook.list_id }})</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock body %}
