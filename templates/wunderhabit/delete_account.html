@@ -24,12 +24,25 @@
             <h2>{% trans "Delete Account" %}</h2>
             <p>{% trans "Are you sure you want to delete your WunderHabit account and all connections between Wunderlist and Habitica?" %}</p>
             <p>{% trans "Your Wunderlist account and Habitica account are not affected." %}</p>
+            <br>
             <form action="{% url 'delete_account' %}" method="post">
                 {% csrf_token %}
                 <a href="{% url 'dashboard' %}" class="btn btn-default btn-sm">{% trans "Cancel" %}</a>
-                <input type="submit" class="btn btn-danger btn-sm" value="{% trans "Delete Account" %}"/>
+                <input type="submit" class="btn btn-danger btn-sm stateButton" value="{% trans "Delete Account" %}"
+                       data-loading-text="{% trans "Please wait..." %}"/>
             </form>
         </div>
     </div>
 
 {% endblock body %}
+
+
+{% block javascript %}
+    <script>
+        $(document).ready(function () {
+            $('.stateButton').on('click', function () {
+                var $btn = $(this).button('loading');
+            })
+        });
+    </script>
+{% endblock javascript %}
