@@ -73,6 +73,17 @@
         </div>
     </div>
 
+    {% if request.user.is_superuser %}
+    <div class="row">
+        <div class="col-md-8">
+            <h3>{% trans "Statistics" %}</h3>
+            <p>{% trans "Users: " %} {{ total_users }}</p>
+            <p>{% trans "Connections: " %} {{ total_connections }}</p>
+            <p>{% trans "Tasks Completed: " %} {{ tasks_completed }}</p>
+        </div>
+    </div>
+    {% endif %}
+
     <div class="row">
         <div class="col-md-4">
             <h3>{% trans "Settings" %}</h3>

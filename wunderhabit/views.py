@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import messages
 from django.contrib.auth import logout
+from django.contrib.auth.models import User
+from django.db.models import Sum
 
 from .decorators import is_authenticated
 from wunderlist.models import Connection
@@ -27,7 +29,24 @@ def dashboard(request):
     form = AddConnectionForm(user)
     if not form.connected:
         return test_authentication(request)
-    return render(request, 'wunderhabit/dashboard.html', {'connections': connections, 'form': form})
+
+    # Load statistics for superuser
+    total_users = 0
+    total_connections = 0
+    tasks_completed = 0
+    if user.is_superuser:
+        total_users = User.objects.filter(is_active=True).count()
+        total_connections = Connection.objects.filter(is_active=True).count()
+        tasks_completed = Connection.objects.aggregate(Sum('tasks_completed'))[
+            'tasks_completed__sum']
+
+    return render(request, 'wunderhabit/dashboard.html', {
+        'connections': connections,
+        'form': form,
+        'total_users': total_users,
+        'total_connections': total_connections,
+        'tasks_completed': tasks_completed,
+    })
 
 
 @login_required
