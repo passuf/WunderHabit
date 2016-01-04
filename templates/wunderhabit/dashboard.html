@@ -1,5 +1,5 @@
 {% extends "wunderhabit/base.html" %}
-{% load i18n %}{% load bootstrap3 %}
+{% load i18n %}{% load bootstrap3 %}{% load humanize %}
 
 {% block body %}
     <div class="page-header">
@@ -39,7 +39,7 @@
                             <td>{{ connection.tasks_completed }}</td>
                             <td>
                                 {% if connection.last_upscored %}
-                                    {{ connection.last_upscored }}
+                                    {{ connection.last_upscored|naturaltime }}
                                 {% else %}
                                     -
                                 {% endif %}
