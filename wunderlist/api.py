@@ -67,7 +67,9 @@ class WunderlistApi:
         if lists is None:
             return [], False
 
-        return [(l['id'], l['title']) for l in lists], True
+        choices = [(l['id'], l['title']) for l in lists]
+        choices = sorted(choices, key=lambda x: x[1])
+        return choices, True
 
     def get_webhooks(self, list_id):
         r = requests.get(default.GET_WEBHOOKS.format(list_id=list_id), headers=self.headers)
