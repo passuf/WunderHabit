@@ -25,7 +25,7 @@ def index(request):
 @has_habitica
 def dashboard(request):
     user = request.user
-    connections = Connection.objects.filter(owner=user, is_active=True).order_by('list_title')
+    connections = Connection.objects.filter(owner=user, is_active=True)
     form = AddConnectionForm(user)
     if not form.connected:
         return test_authentication(request)
