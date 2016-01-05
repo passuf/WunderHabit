@@ -1,5 +1,6 @@
 from django import forms
 from django.utils.crypto import get_random_string
+from django.utils.translation import ugettext_lazy as _
 
 from .models import Connection
 from .api import WunderlistApi
@@ -11,11 +12,11 @@ class AddConnectionForm(forms.Form):
         super(AddConnectionForm, self).__init__(*args, **kwargs)
         self.user = user
         self.api = WunderlistApi(user.wunderlist.api_token)
-        self.choices, self.connected = self.api.get_list_choices()
+        choices, self.connected = self.api.get_list_choices()
+        self.choices = [('', 'empty')] + choices
         self.fields['list_id'].choices = self.choices
-        self.fields['list_id'].label = 'List'
 
-    list_id = forms.ChoiceField(choices=[])
+    list_id = forms.ChoiceField(choices=[], label='')
     habit = forms.CharField(max_length=255, min_length=1, initial='productivity')
 
     def save(self):

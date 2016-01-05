@@ -1,5 +1,5 @@
 {% extends "wunderhabit/base.html" %}
-{% load i18n %}{% load bootstrap3 %}{% load humanize %}
+{% load i18n %}{% load bootstrap3 %}{% load humanize %}{% load static %}
 
 {% block body %}
     <div class="page-header">
@@ -59,10 +59,11 @@
 
             <br>
 
-            <form action="{% url 'add' %}" method="post" class="form-inline">
+            <form action="{% url 'add' %}" method="post" class="form-inline" id="add_connection">
                 {% csrf_token %}
                 {% bootstrap_form form %}
-                <input type="submit" value="{% trans "Create Connection" %}" class="btn btn-primary btn-sm stateButton"
+                <input type="submit" value="{% trans "Create Connection" %}"
+                       class="btn btn-primary btn-sm stateButton"
                        data-loading-text="{% trans "Creating Connection..." %}"/>
             </form>
             <br>
@@ -74,14 +75,14 @@
     </div>
 
     {% if request.user.is_superuser %}
-    <div class="row">
-        <div class="col-md-8">
-            <h3>{% trans "Statistics" %}</h3>
-            <p>{% trans "Users: " %} {{ total_users }}</p>
-            <p>{% trans "Connections: " %} {{ total_connections }}</p>
-            <p>{% trans "Tasks Completed: " %} {{ tasks_completed }}</p>
+        <div class="row">
+            <div class="col-md-8">
+                <h3>{% trans "Statistics" %}</h3>
+                <p>{% trans "Users: " %} {{ total_users }}</p>
+                <p>{% trans "Connections: " %} {{ total_connections }}</p>
+                <p>{% trans "Tasks Completed: " %} {{ tasks_completed }}</p>
+            </div>
         </div>
-    </div>
     {% endif %}
 
     <div class="row">
@@ -112,13 +113,37 @@
 {% endblock body %}
 
 
+{% block css %}
+    {# Select2 CSS #}
+    <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css" rel="stylesheet"/>
+{% endblock css %}
+
+
 {% block javascript %}
+    {# Select2 JS #}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('select').select2({
+                placeholder: "{% trans "Select a list..." %}"
+            });
+        });
+    </script>
+
+    {# Stateful Buttons #}
     <script>
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
+            $.fn.isValid = function () {
+                return this[0].checkValidity()
+            };
             $('.stateButton').on('click', function () {
                 var $btn = $(this).button('loading');
-            })
+                if (!$('#add_connection').isValid()) {
+                    // Reset button if form is not valid
+                    $btn.button('reset')
+                }
+            });
         });
     </script>
 {% endblock javascript %}
