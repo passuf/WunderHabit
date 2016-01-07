@@ -14,6 +14,7 @@ class AuthForm(forms.ModelForm):
     """
     Form to enter and validate the Habitica authentication credentials.
     """
+
     AUTH_ERROR = _('Could not authenticate to Habitica. Please check the User '
                    'ID and the API Token.')
     HABITICA_ERROR = _('Something went wrong while loading Habitica user data.'
