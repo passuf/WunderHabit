@@ -11,4 +11,4 @@ script:
   - py.test --cov-report= --cov .
   # - pep8 --exclude=*urls.py advanced_filters -v
 after_success:
-  coveralls
+  - coveralls
