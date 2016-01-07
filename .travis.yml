@@ -1,0 +1,14 @@
+language: python
+sudo: false
+cache: pip
+env:
+  global:
+    - DJANGO_SECRET_KEY=random-key-4-travis
+    - DJANGO_SETTINGS_MODULE=wunderhabit.settings
+install:
+  - pip install -r requirements.txt -r test_requirements.txt
+script:
+  - py.test --cov-report= --cov .
+  # - pep8 --exclude=*urls.py advanced_filters -v
+after_success:
+  coveralls

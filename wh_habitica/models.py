@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
@@ -14,7 +14,7 @@ class Habitica(models.Model):
     name = models.CharField(_('Name'), max_length=255, blank=True)
     email = models.EmailField(_('Email'), blank=True)
     api_token = models.CharField(_('API Token'), max_length=255, blank=True)
-    owner = models.OneToOneField(User, related_name='habitica')
+    owner = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='habitica')
 
     created_at = models.DateTimeField(_("Created at"), auto_now_add=True)
     modified_at = models.DateTimeField(_("Modified at"), auto_now=True)
