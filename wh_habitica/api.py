@@ -39,9 +39,7 @@ class HabiticaApi(hlib.api.Habitica):
         """
 
         user = self.get_user()
-        if not user:
-            return None
-        if default.JSON_AUTH not in user:
+        if not user or default.JSON_AUTH not in user:
             return None
 
         auth_details = user[default.JSON_AUTH]

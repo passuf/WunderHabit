@@ -27,12 +27,7 @@ class AuthForm(forms.ModelForm):
         cleaned_data = super(AuthForm, self).clean()
 
         api = HabiticaApi(cleaned_data['user_id'], cleaned_data['api_token'])
-
-        try:
-            user_details = api.get_user_details()
-        except Exception:
-            logger.exception('Could not load Habitica user details.')
-            raise forms.ValidationError(self.AUTH_ERROR)
+        user_details = api.get_user_details()
 
         # Validate authentication
         if not user_details or cleaned_data['user_id'] != user_details[default.JSON_ID]:
