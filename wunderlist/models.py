@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.auth.models import User
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
@@ -19,7 +18,7 @@ class Wunderlist(models.Model):
     name = models.CharField(_('Name'), max_length=255)
     email = models.EmailField(_('Email'))
     api_token = models.CharField(_('API Token'), max_length=255)
-    owner = models.OneToOneField(User, related_name='wunderlist')
+    owner = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='wunderlist')
 
     created_at = models.DateTimeField(_("Created at"), auto_now_add=True)
     modified_at = models.DateTimeField(_("Modified at"), auto_now=True)
@@ -42,7 +41,7 @@ class Connection(models.Model):
     webhook_id = models.IntegerField(_('Webhook ID'), default=-1, blank=True)
     habit = models.CharField(_('Habit'), max_length=255, default='productivity')
     token = models.CharField(_('Token'), max_length=255)
-    owner = models.ForeignKey(User, related_name='connections', blank=True, null=True)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='connections', blank=True, null=True)
     tasks_completed = models.IntegerField(_('Tasks completed'), default=0)
     last_upscored = models.DateTimeField(_('Last Up-Scored'), default=None, blank=True, null=True)
     is_active = models.BooleanField(_('Is active'), default=True)
