@@ -26,9 +26,30 @@
                 {% csrf_token %}
                 {% bootstrap_form form layout='inline' %}
                 <a href="{% url 'logout' %}" class="btn btn-default btn-sm">{% trans "Cancel" %}</a>
-                <input type="submit" value="{% trans "Connect with Habtica" %}" class="btn btn-primary"/>
+                <input type="submit" value="{% trans "Connect with Habtica" %}" class="btn btn-primary stateButton"
+                       data-loading-text="Connecting, please wait..."/>
             </form>
 
         </div>
     </div>
 {% endblock body %}
+
+
+{% block javascript %}
+    {# Stateful Buttons #}
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+            $.fn.isValid = function () {
+                return this[0].checkValidity()
+            };
+            $('.stateButton').on('click', function () {
+                var $btn = $(this).button('loading');
+                if (!$('#add_connection').isValid()) {
+                    // Reset button if form is not valid
+                    $btn.button('reset')
+                }
+            });
+        });
+    </script>
+{% endblock javascript %}
