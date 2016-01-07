@@ -36,6 +36,7 @@ src/static/CACHE
 
 # other
 *.pot
+.env
 htmlcov
 distribute-*.tar.gz
 

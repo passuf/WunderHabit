@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'bootstrap3',
     'wunderlist',
-    'habitica',
+    'wh_habitica',
 ]
 
 MIDDLEWARE_CLASSES = [

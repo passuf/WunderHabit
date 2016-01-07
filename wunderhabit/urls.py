@@ -3,7 +3,7 @@ from django.contrib import admin
 
 from . import views
 from wunderlist import urls as wunderlist_urls
-from habitica import urls as habitica_urls
+from wh_habitica import urls as habitica_urls
 
 
 urlpatterns = [
