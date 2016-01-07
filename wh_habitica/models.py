@@ -25,3 +25,6 @@ class Habitica(models.Model):
         """
 
         return HabiticaApi(self.user_id, self.api_token)
+
+    class Meta:
+        db_table = 'habitica_habitica'

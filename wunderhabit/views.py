@@ -9,7 +9,7 @@ from django.db.models import Sum
 from .decorators import is_authenticated
 from wunderlist.models import Connection
 from wunderlist.decorators import has_wunderlist
-from habitica.decorators import has_habitica
+from wh_habitica.decorators import has_habitica
 from wunderlist.forms import AddConnectionForm
 
 

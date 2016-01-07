@@ -5,7 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 from django.core.urlresolvers import reverse
 
-from habitica.api import HabiticaApi
+from wh_habitica.api import HabiticaApi
 from .api import WunderlistApi
 from . import default
 
