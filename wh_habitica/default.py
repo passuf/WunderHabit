@@ -26,5 +26,8 @@ JSON_BUFFS = 'buffs'
 
 JSON_AUTH = 'auth'
 JSON_LOCAL = 'local'
+JSON_FACEBOOK = 'facebook'
+JSON_FORMAT_JSON = '_json'
 JSON_USERNAME = 'username'
 JSON_EMAIL = 'email'
+JSON_NAME = 'name'
