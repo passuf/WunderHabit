@@ -37,7 +37,7 @@ class AuthForm(forms.ModelForm):
         try:
             self.instance.name = user_details[default.JSON_NAME]
             self.instance.email = user_details[default.JSON_EMAIL]
-        except ValueError:
+        except (ValueError, KeyError):
             logger.exception('Could not get user details: %s', str(user_details))
             raise forms.ValidationError(self.HABITICA_ERROR)
 
