@@ -27,6 +27,7 @@ testresults
 *.DS_Store
 *~
 src/static/CACHE
+.cache/
 
 # IDE
 .project
@@ -39,6 +40,7 @@ src/static/CACHE
 .env
 htmlcov
 distribute-*.tar.gz
+/.coverage
 
 # Django media directory
 media/
