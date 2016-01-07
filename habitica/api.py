@@ -1,7 +1,11 @@
 import requests
 import urllib
+import logging
 
 from . import default
+
+
+logger = logging.getLogger(__name__)
 
 
 class HabiticaApi:
@@ -41,12 +45,18 @@ class HabiticaApi:
         if not r or not r.status_code == 200:
             return None
 
+        user = None
         try:
             user = r.json()
             user_info = user[default.JSON_AUTH][default.JSON_LOCAL]
-            if default.JSON_USERNAME not in user_info or default.JSON_EMAIL not in user_info:
+            if default.JSON_USERNAME not in user_info:
+                logger.error('Could not fetch Habitica user. No username found!')
+                return None
+            if default.JSON_EMAIL not in user_info:
+                logger.error('Could not fetch Habitica user. No email found!')
                 return None
         except Exception:
+            logger.exception('Exception while fetching Habitica user: ' + str(user))
             return None
 
         return user

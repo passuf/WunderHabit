@@ -1,9 +1,13 @@
+import logging
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
 from . import default
 from .models import Habitica
 from .api import HabiticaApi
+
+
+logger = logging.getLogger(__name__)
 
 
 class AuthForm(forms.ModelForm):
@@ -20,12 +24,14 @@ class AuthForm(forms.ModelForm):
 
         api = HabiticaApi(cleaned_data['user_id'], cleaned_data['api_token'])
 
+        user = None
         try:
             user = api.get_user()
             user_info = user[default.JSON_AUTH][default.JSON_LOCAL]
             self.instance.name = user_info[default.JSON_USERNAME]
             self.instance.email = user_info[default.JSON_EMAIL]
         except Exception:
+            logger.exception('Exception during Habitica Auth: ' + str(user))
             raise forms.ValidationError(
                 _('Could not authenticate to Habitica. Please check the User ID and the API Token.'))
 
