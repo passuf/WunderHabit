@@ -3,9 +3,9 @@ import json
 import pytest
 import responses
 
-import default
-from .factories import UserFactory
-from .forms import AuthForm
+from wh_habitica import default
+from wh_habitica.factories import UserFactory
+from wh_habitica.forms import AuthForm
 
 USER_DICT = dict(username='tester', email='foo@bar.com')
 
