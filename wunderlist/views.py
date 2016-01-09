@@ -66,11 +66,11 @@ def auth_check(request):
     except ObjectDoesNotExist:
         # Create new Django user
         user = User.objects.create(
-            username=wunderlist_user.get(default.JSON_EMAIL),
-            email=wunderlist_user.get(default.JSON_EMAIL),
-            first_name=wunderlist_user.get(default.JSON_NAME),
-            is_staff=False,
-            is_superuser=False,
+                username=wunderlist_user.get(default.JSON_EMAIL),
+                email=wunderlist_user.get(default.JSON_EMAIL),
+                first_name=wunderlist_user.get(default.JSON_NAME),
+                is_staff=False,
+                is_superuser=False,
         )
         messages.success(request, _('Connected with Wunderlist'))
     user.backend = 'django.contrib.auth.backends.ModelBackend'
@@ -94,7 +94,6 @@ def auth_check(request):
 
 @csrf_exempt
 def webhook(request, hook_id):
-
     connection = get_object_or_404(Connection, token=hook_id)
 
     if request.method != 'POST':
@@ -128,13 +127,13 @@ def webhook(request, hook_id):
     if not user.is_active:
         return HttpResponse(status=400)
 
-    # Check if a task has been added to the list
-    if operation == default.OPERATION_CREATE and subject_type == default.SUBJECT_TASK:
+    # Check if a task or subtask has been added to the list
+    if operation == default.OPERATION_CREATE:
         # New task has been added to list
         return HttpResponse(status=200)
 
-    # Check if a task has been completed
-    if operation == default.OPERATION_UPDATE and subject_type == default.SUBJECT_TASK:
+    # Check if a task has been updated (includes completion)
+    if operation == default.OPERATION_UPDATE:
         try:
             before = data.get(default.JSON_BEFORE)
             before_completed = before.get(default.JSON_COMPLETED, False)
@@ -144,9 +143,15 @@ def webhook(request, hook_id):
             return HttpResponse(status=400)
 
         if not before_completed and after_completed:
-            # Task has been completed
-            connection.score_up()
-            return HttpResponse(status=200)
+            if subject_type == default.SUBJECT_TASK:
+                # Task has been completed
+                connection.score_up()
+                return HttpResponse(status=200)
+
+            elif subject_type == default.SUBJECT_SUBTASK:
+                # Subtask has been completed
+                connection.score_up()
+                return HttpResponse(status=200)
 
     return HttpResponse(status=400)
 
