@@ -4,8 +4,8 @@ import pytest
 import responses
 
 from wh_habitica import default
-from wh_habitica.factories import UserFactory
 from wh_habitica.forms import AuthForm
+from wunderhabit.factories import UserFactory
 
 USER_DICT = dict(username='tester', email='foo@bar.com')
 
