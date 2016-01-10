@@ -8,5 +8,5 @@ logging.disable(logging.CRITICAL)
 
 def test_server_status():
     api = HabiticaApi(user_id=-1, api_token='invalid')
-    status = api.status()
+    status = api.get_status()
     assert status is True or status is False

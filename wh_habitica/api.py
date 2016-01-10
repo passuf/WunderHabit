@@ -13,7 +13,7 @@ class HabiticaApi(hlib.api.Habitica):
                    default.AUTH_HEADER_TOKEN: api_token}
         super(HabiticaApi, self).__init__(headers)
 
-    def status(self):
+    def get_status(self):
         """
         Returns the Habitica server status.
         """
