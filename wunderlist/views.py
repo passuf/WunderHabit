@@ -102,7 +102,7 @@ def webhook(request, hook_id):
     try:
         data = json.loads(request.body)
         operation = data.get(default.JSON_OPERATION)
-        user_id = data.get(default.JSON_USER_ID)
+        user_id = int(data.get(default.JSON_USER_ID))
         subject = data.get(default.JSON_SUBJECT)
         subject_type = subject.get(default.JSON_TYPE)
     except Exception:
@@ -110,22 +110,22 @@ def webhook(request, hook_id):
 
     # Check if connection is active
     if not connection.is_active:
-        return HttpResponse(status=400)
+        return HttpResponse(status=410)
 
     # Find Wunderlist user
     try:
         wunderlist = Wunderlist.objects.get(user_id=user_id)
     except ObjectDoesNotExist:
-        return HttpResponse(status=400)
+        return HttpResponse(status=401)
 
     # Validate user
     user = connection.owner
     if not user or not wunderlist or user != wunderlist.owner:
-        return HttpResponse(status=400)
+        return HttpResponse(status=401)
 
     # Check if user is active
     if not user.is_active:
-        return HttpResponse(status=400)
+        return HttpResponse(status=403)
 
     # Check if a task or subtask has been added to the list
     if operation == default.OPERATION_CREATE:
