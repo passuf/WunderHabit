@@ -18,7 +18,11 @@ class HabiticaApi(hlib.api.Habitica):
         Returns the Habitica server status.
         """
 
-        return self.server()[default.JSON_STATUS] == default.JSON_UP
+        try:
+            return self.status()[default.JSON_STATUS] == default.JSON_UP
+        except Exception:
+            logger.exception('Could not get Habitica status.')
+            return False
 
     def get_user(self):
         """
