@@ -50,4 +50,5 @@ OPERATION_CREATE = 'create'
 OPERATION_UPDATE = 'update'
 
 SUBJECT_TASK = 'task'
+SUBJECT_SUBTASK = 'subtask'
 SUBJECT_LIST = 'list'
