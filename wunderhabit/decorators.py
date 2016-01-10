@@ -30,7 +30,7 @@ def is_authenticated(view_func):
             return redirect('index')
 
         # Test Habitica
-        if not h_api.status():
+        if not h_api.get_status():
             messages.error(request, _('Habitica servers are currently not responding. Please try again later.'))
             return redirect('dashboard')
         if not h_api.test_auth():
