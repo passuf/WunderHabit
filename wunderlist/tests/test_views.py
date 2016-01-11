@@ -3,26 +3,15 @@ import pytest
 from django.core.urlresolvers import reverse
 from django.http import Http404
 
+from wunderhabit.tests.utils import get_user
 from wunderlist import default
-from wunderlist.factories import WunderlistFactory, ConnectionFactory
+from wunderlist.factories import ConnectionFactory
 from wunderlist.views import webhook
-from wh_habitica.factories import HabiticaFactory
 from wh_habitica.tests.utils import mock_habitica_api
 
 
 USER_DICT = dict(username='tester', email='foo@bar.com')
 INVALID_HOOK_TOKEN = '0000aUZ01eJYBhsIIVZotvc0dY9h0000'
-
-
-def get_user():
-    """
-    Returns a user which is connected with wunderlist and habitica.
-    """
-    wunderlist = WunderlistFactory.create()
-    habitica = HabiticaFactory.create()
-    habitica.owner = wunderlist.owner
-    habitica.save()
-    return wunderlist.owner
 
 
 def get_invalid_webhook_body():
