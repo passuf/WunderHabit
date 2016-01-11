@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.utils.translation import ugettext_lazy as _
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.db.models import Sum
 
 from .decorators import is_authenticated
+from . import default
 from wunderlist.models import Connection
 from wunderlist.decorators import has_wunderlist
 from wh_habitica.decorators import has_habitica
@@ -52,7 +52,7 @@ def dashboard(request):
 @login_required
 def logout_view(request):
     logout(request)
-    messages.success(request, _('Successfully logged out.'))
+    messages.success(request, default.MESSAGE_LOGGED_OUT)
     return redirect('index')
 
 
@@ -76,7 +76,7 @@ def delete_account(request):
         # Delete the user
         user.delete()
 
-        messages.success(request, _('Your account has successfully been deleted.'))
+        messages.success(request, default.MESSAGE_DELETED_ACCOUNT)
 
         return redirect('index')
 
@@ -94,10 +94,10 @@ def add_connection(request):
         if form.is_valid():
             connection = form.save()
             if connection:
-                messages.success(request, _('Created new Connection!'))
+                messages.success(request, default.MESSAGE_CREATED_CONNECTION)
             return redirect('index')
 
-    messages.error(request, _('Could not create Connection.'))
+    messages.error(request, default.MESSAGE_CREATE_CONNECTION_ERROR)
     return redirect('dashboard')
 
 
@@ -110,7 +110,7 @@ def delete_connection(request, connection_id):
     connection = get_object_or_404(Connection, id=connection_id, owner=user, is_active=True)
     connection.deactivate()
 
-    messages.success(request, _('Deleted the Connection!'))
+    messages.success(request, default.MESSAGE_DELETED_CONNECTION)
     return redirect('index')
 
 
@@ -119,5 +119,5 @@ def delete_connection(request, connection_id):
 @has_habitica
 @is_authenticated
 def test_authentication(request):
-    messages.success(request, _('Successfully connected with Wunderlist and Habitica.'))
+    messages.success(request, default.MESSAGE_AUTH_SUCCESS)
     return redirect('dashboard')

@@ -45,6 +45,7 @@ JSON_OPERATION = 'operation'
 JSON_BEFORE = 'before'
 JSON_AFTER = 'after'
 JSON_COMPLETED = 'completed'
+JSON_TITLE = 'title'
 
 OPERATION_CREATE = 'create'
 OPERATION_UPDATE = 'update'
