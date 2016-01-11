@@ -1,0 +1,33 @@
+{% extends "wunderhabit/base.html" %}
+{% load i18n %}
+
+{% block body %}
+    <div class="page-header">
+        {% blocktrans with wunderlist=request.user.wunderlist.email habitica=request.user.habitica.email %}
+            <h1>WunderHabit</h1>
+            <p class="lead">
+                Level up in <a href="https://habitica.com">Habitica</a> by completing todo's in
+                <a href="https://wunderlist.com">Wunderlist</a>.
+            </p>
+        {% endblocktrans %}
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+
+            <h2>{% trans "Contact" %}</h2>
+        </div>
+    </div>
+
+{% endblock body %}
+
+
+{% block javascript %}
+    <script>
+        $(document).ready(function () {
+            $('.stateButton').on('click', function () {
+                var $btn = $(this).button('loading');
+            })
+        });
+    </script>
+{% endblock javascript %}
