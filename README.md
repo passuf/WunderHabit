@@ -19,7 +19,7 @@ If you are not familiar with [Django](https://djangoproject.com), you might firs
 ### Prerequisites
 * You need a [Wunderlist](https://wunderlist.com) account
 * Register your [Wunderlist App](https://developer.wunderlist.com/apps) to generate a Client ID and a Client Secret to interact with the [Wunderlist API](https://developer.wunderlist.com/documentation)
-* In order to communicate with the [Wunderlist API](https://developer.wunderlist.com/documentation), you need a webserver together and a trusted SSL certificate for your domain. There are free certificates available, just google for it.
+* In order to communicate with the [Wunderlist API](https://developer.wunderlist.com/documentation), you need a webserver and a trusted SSL certificate for your domain. There are free certificates available, just google for it.
 
 ### Install the Requirements
 
@@ -40,7 +40,7 @@ pip install -r requirements.txt
 
 ### Run the Django app
 
-Copy the local settings ``local_settings.py`` and and edit them according to your setup (do not share this file!):
+Create a local settings file ``local_settings.py`` based on the example ``local_settings.example.py`` and configure the parameters according to your setup (do not share this file!):
 ```
 cp wunderhabit/local_settings.example.py wunderhabit/local_settings.py
 ```
@@ -60,9 +60,10 @@ There are several good guides on how to deploy a Django application. Personally,
 
 
 ## Acknowledgements
-The following projects or libraries helped a lot to efficiantly implement WunderHabit:
+The following projects or libraries helped a lot to build WunderHabit:
 * [Django Project](https://www.djangoproject.com/)
 * [Requests: HTTP for Humans](http://docs.python-requests.org/en/latest/)
 * [Bootstrap](http://getbootstrap.com/)
 * [Django-Bootstrap3](https://github.com/dyve/django-bootstrap3)
 * [Gunicorn](http://gunicorn.org/)
+* [Habitica Python Wrapper](https://github.com/philadams/habitica)
