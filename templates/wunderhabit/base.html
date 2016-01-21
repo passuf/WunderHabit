@@ -35,12 +35,19 @@
     {% endif %}
     {% block body %}{% endblock body %}
 
-    <!-- Site footer -->
-    <footer class="footer">
-        <p>&copy; {% now "Y" %} Passuf</p>
-    </footer>
-
 </div> <!-- /container -->
+
+<!-- Site footer -->
+<footer class="footer">
+    <div class="container">
+        <ul class="list-inline">
+            <li><a href="{% url 'index' %}">{% trans "Index" %}</a></li>
+            <li><a href="{% url 'contact' %}">{% trans "Contact" %}</a></li>
+            <li><a href="{% url 'privacy' %}">{% trans "Privacy" %}</a></li>
+            <li class="pull-right text-muted">&copy; {% now "Y" %} {% trans "Passuf" %}</li>
+        </ul>
+    </div>
+</footer>
 
 
 <!-- Latest compiled and minified JavaScript -->
