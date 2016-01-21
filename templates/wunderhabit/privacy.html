@@ -14,8 +14,56 @@
 
     <div class="row">
         <div class="col-md-8">
-
             <h2>{% trans "Privacy" %}</h2>
+            {% url 'contact' as contact_url %}
+            {% blocktrans %}
+                <p>
+                    The purpose of this site is to inform you about which data we are storing on the server when you
+                    connect
+                    your Wunderlist and Habitica account. There is nothing fancy going on, but as a WunderHabit user,
+                    we think it is your right to know what is happening with your data.
+                </p>
+                <p>
+                    <strong>
+                        Maybe the most important thing to say is, that none of your data is shared with any other third
+                        party. Basically, everything you see in your dashboard is stored on our server and is never
+                        shared
+                        with others. If you delete your account, all data related to you will be deleted.
+                    </strong>
+                </p>
+                <p>
+                    If you do not agree with our privacy policy, you can always delete your account together with your
+                    personal data. Feel free to <a href="{{ contact_url }}">contact</a> us if you have any questions.
+                </p>
+            {% endblocktrans %}
+
+            <h3>{% trans "Wunderlist" %}</h3>
+            {% blocktrans %}
+                <p>
+                    By connecting your Wunderlist account, WunderHabit receives a user object containing your email
+                    address, your full name, your user ID and an API access token.
+                    This personal information is stored on our server as long as your account is active, and deleted
+                    together with your account if you choose to do so.
+                </p>
+                <p>
+                    When connecting a list with WunderHabit, a webhook is registered to receive updates on the list.
+                    The only thing stored related to your connected lists is the name of the list, a count of your
+                    completed To-Do's (no information about the individual tasks), the ID of the list and the ID of the
+                    webhook to de-register it if necessary. No information about not connected lists is stored.
+                </p>
+
+            {% endblocktrans %}
+
+            <h3>{% trans "Habitica" %}</h3>
+            {% blocktrans %}
+                <p>
+                    By connecting your Habitica account, WunderHabit receives a user object containing your email
+                    address, your full name, your user ID and an API access token.
+                    This personal information is stored on our server as long as your account is active, and deleted
+                    together with your account if you choose to do so.
+                </p>
+            {% endblocktrans %}
+
         </div>
     </div>
 
