@@ -53,7 +53,7 @@ class HabiticaApi(hlib.api.Habitica):
         try:
             user_details[default.JSON_ID] = user[default.JSON_ID]
         except Exception:
-            logger.exception('Could not find Habitica user id')
+            logger.exception('Could not find Habitica user id: ' + str(user))
 
         # Parse user details
         if default.JSON_LOCAL in auth_details and auth_details[default.JSON_LOCAL]:
@@ -63,7 +63,7 @@ class HabiticaApi(hlib.api.Habitica):
                 user_details[default.JSON_EMAIL] = auth_local[default.JSON_EMAIL]
                 user_details[default.JSON_NAME] = auth_local[default.JSON_USERNAME]
             except Exception:
-                logger.exception('Could not parse Habitica user with local auth.')
+                logger.exception('Could not parse Habitica user with local auth: ' + str(user))
 
         elif default.JSON_FACEBOOK in auth_details:
             # User is authenticated with facebook
@@ -72,11 +72,11 @@ class HabiticaApi(hlib.api.Habitica):
                 user_details[default.JSON_EMAIL] = auth_facebook[default.JSON_EMAIL]
                 user_details[default.JSON_NAME] = auth_facebook[default.JSON_NAME]
             except Exception:
-                logger.exception('Could not parse Habitica user with Facebook auth.')
+                logger.exception('Could not parse Habitica user with Facebook auth: ' + str(user))
 
         else:
             # No valid authentication provider found
-            logger.error('No valid Habitica auth provider found.')
+            logger.error('No valid Habitica auth provider found: ' + str(user))
 
         return user_details
 
