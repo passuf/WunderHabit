@@ -3,15 +3,17 @@ import habitica as hlib
 
 from . import default
 
-
 logger = logging.getLogger('wunderhabit')
 
 
 class HabiticaApi(hlib.api.Habitica):
     def __init__(self, user_id, api_token):
-        headers = {default.AUTH_HEADER_CLIENT: user_id,
-                   default.AUTH_HEADER_TOKEN: api_token}
-        super(HabiticaApi, self).__init__(headers)
+        headers = {
+            default.AUTH_URL: default.API_HOST,
+            default.AUTH_HEADER_CLIENT: user_id,
+            default.AUTH_HEADER_TOKEN: api_token
+        }
+        super(HabiticaApi, self).__init__(auth=headers)
 
     def get_status(self):
         """
