@@ -9,7 +9,6 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         users = User.objects.all()
-        users = User.objects.filter(email='passuf@gmail.com')
         active_connections = Connection.objects.filter(is_active=True).count()
         modified_connections = 0
         disabled_connections = 0
@@ -33,12 +32,14 @@ class Command(BaseCommand):
 
             # Iterate over all connections
             for connection in connections:
+                habit_id = None
+                habit_title = None
                 for habit in habits:
-                    if '_legacyId' not in habit:
-                        continue
-                    habit_id = None
-                    habit_title = None
-                    if connection.habit_id == str(habit['_legacyId']):
+                    if '_legacyId' in habit and connection.habit_id == str(habit['_legacyId']):
+                        habit_id = habit['id']
+                        habit_title = habit['text']
+                        break
+                    elif 'text' in habit and connection.habit_id == habit['text']:
                         habit_id = habit['id']
                         habit_title = habit['text']
                         break
