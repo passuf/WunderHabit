@@ -1,6 +1,7 @@
 
 """
 Habitica API
+These constants are only used for mock testing the API.
 """
 
 
@@ -9,12 +10,12 @@ AUTH_HEADER_CLIENT = 'x-api-user'
 AUTH_HEADER_TOKEN = 'x-api-key'
 
 API_HOST = 'https://habitica.com'
-API_BASE_URL = API_HOST + '/api/v2'
+API_BASE_URL = API_HOST + '/api/v3'
 
 GET_STATUS = API_BASE_URL + '/status'
 GET_USER = API_BASE_URL + '/user'
 GET_USER_ANONYMIZED = API_BASE_URL + '/user/anonymized'
-POST_TASK = API_BASE_URL + '/user/tasks/{id}/{direction}'
+POST_TASK = API_BASE_URL + '/tasks/user/{id}/{direction}'
 
 JSON_STATUS = 'status'
 JSON_UP = 'up'

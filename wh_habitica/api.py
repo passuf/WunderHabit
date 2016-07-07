@@ -33,8 +33,8 @@ class HabiticaApi(hlib.api.Habitica):
 
         try:
             user = self.user()
-        except Exception:
-            logger.exception('Could not load Habitica user.')
+        except Exception as e:
+            logger.exception('Could not load Habitica user: ' + str(e))
             return None
 
         return user

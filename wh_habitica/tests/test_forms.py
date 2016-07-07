@@ -7,7 +7,6 @@ from wh_habitica import default
 from wh_habitica.forms import AuthForm
 from wunderhabit.factories import UserFactory
 
-
 logging.disable(logging.CRITICAL)
 
 USER_DICT = dict(username='tester', email='foo@bar.com')
@@ -25,24 +24,27 @@ def get_user_callback(request):
         user = {default.JSON_FORMAT_JSON: dict(
             name=USER_DICT['username'], email=USER_DICT['email']
         )}
-        return (200, {}, json.dumps({
+        data = {
             'id': request.headers.get(default.AUTH_HEADER_CLIENT),
             'auth': {
                 'local': {},
-                'facebook': user, }}))
+                'facebook': user}}
 
     elif request.headers.get(default.AUTH_HEADER_CLIENT) == 'facebook_fail?':
-        return (200, {}, json.dumps({
+        data = {
             'id': request.headers.get(default.AUTH_HEADER_CLIENT),
             'auth': {
                 'local': {},
-                'facebook': USER_DICT, }}))
+                'facebook': USER_DICT}}
 
-    return (200, {}, json.dumps({
-        'id': request.headers.get(default.AUTH_HEADER_CLIENT),
-        'auth': {
-            'facebook': {},
-            'local': USER_DICT, }}))
+    else:
+        data = {
+            'id': request.headers.get(default.AUTH_HEADER_CLIENT),
+            'auth': {
+                'facebook': {},
+                'local': USER_DICT}}
+
+    return 200, {}, json.dumps({'data': data})
 
 
 @pytest.fixture
