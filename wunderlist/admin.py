@@ -18,7 +18,7 @@ class ConnectionAdmin(admin.ModelAdmin):
     fieldsets = [
         (
             'Connection',
-            {'fields': ['list_id', 'list_title', 'habit', 'token', 'webhook_id', 'owner']}
+            {'fields': ['list_id', 'list_title', 'habit_id', 'habit_title', 'token', 'webhook_id', 'owner']}
         ),
         (
             'Activity',
@@ -26,7 +26,7 @@ class ConnectionAdmin(admin.ModelAdmin):
         )
     ]
     readonly_fields = ['list_id', 'list_title', 'token', 'webhook_id', 'created_at', 'modified_at']
-    list_display = ['list_id', 'list_title', 'habit', 'token', 'is_active', 'owner', 'tasks_completed', 'created_at', 'modified_at']
+    list_display = ['list_id', 'list_title', 'habit_id', 'habit_title', 'token', 'is_active', 'owner', 'tasks_completed', 'created_at', 'modified_at']
 
 
 admin.site.register(Wunderlist, WunderlistAdmin)

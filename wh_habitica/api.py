@@ -33,8 +33,8 @@ class HabiticaApi(hlib.api.Habitica):
 
         try:
             user = self.user()
-        except Exception:
-            logger.exception('Could not load Habitica user.')
+        except Exception as e:
+            logger.exception('Could not load Habitica user: ' + str(e))
             return None
 
         return user
@@ -81,6 +81,23 @@ class HabiticaApi(hlib.api.Habitica):
             logger.error('No valid Habitica auth provider found: ' + str(user))
 
         return user_details
+
+    def get_habits(self):
+        return self.user.tasks(type='habits')
+
+    def get_habits_list_choices(self):
+        """
+        Returns a tuple with the available habits (possibly empty) and a boolean indicating the success of the api request.
+        """
+
+        habits = self.get_habits()
+
+        if habits is None:
+            return [], False
+
+        choices = [(l['id'], l['text']) for l in habits]
+        choices = sorted(choices, key=lambda x: x[1])
+        return choices, True
 
     def post_task(self, task_id, up=True):
         """

@@ -35,7 +35,7 @@
                     {% for connection in connections %}
                         <tr>
                             <td>{{ connection.list_title }}</td>
-                            <td>{{ connection.habit }}</td>
+                            <td>{{ connection.habit_title }}</td>
                             <td>{{ connection.tasks_completed }}</td>
                             <td>
                                 {% if connection.last_upscored %}
@@ -124,8 +124,11 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $('select').select2({
+            $('#id_list_id').select2({
                 placeholder: "{% trans "Select a list..." %}"
+            });
+            $('#id_habit_id').select2({
+                placeholder: "{% trans "Select a habit..." %}"
             });
         });
     </script>
