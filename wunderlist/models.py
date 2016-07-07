@@ -3,11 +3,11 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 from django.core.urlresolvers import reverse
+from requests import HTTPError
 
 from wh_habitica.api import HabiticaApi
 from .api import WunderlistApi
 from . import default
-
 
 class Wunderlist(models.Model):
     """
@@ -60,10 +60,11 @@ class Connection(models.Model):
 
     def score_up(self):
         api = HabiticaApi(self.owner.habitica.user_id, self.owner.habitica.api_token)
+        result = api.post_task(self.habit_id)
         self.tasks_completed += 1
         self.last_upscored = timezone.now()
         self.save()
-        return api.post_task(self.habit_id)
+        return result
 
     def create_webhook(self):
         """
