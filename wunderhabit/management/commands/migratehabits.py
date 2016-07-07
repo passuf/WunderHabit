@@ -9,14 +9,19 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         users = User.objects.all()
+        users = User.objects.filter(email='passuf@gmail.com')
         active_connections = Connection.objects.filter(is_active=True).count()
         modified_connections = 0
+        disabled_connections = 0
 
         for user in users:
             # Get connections of the user
             connections = Connection.objects.filter(owner=user)
 
             if connections.count() == 0:
+                continue
+
+            if not hasattr(user, 'wunderlist') or not hasattr(user, 'habitica'):
                 continue
 
             # Get habits of the user
@@ -31,6 +36,8 @@ class Command(BaseCommand):
                 for habit in habits:
                     if '_legacyId' not in habit:
                         continue
+                    habit_id = None
+                    habit_title = None
                     if connection.habit_id == str(habit['_legacyId']):
                         habit_id = habit['id']
                         habit_title = habit['text']
@@ -39,7 +46,12 @@ class Command(BaseCommand):
                 if habit_id is None or habit_title is None:
                     # Disable connection
                     print('Disabling connection: ' + str(connection.id))
-                    connection.deactivate()
+                    connection.delete_webhook()
+                    connection.habit_id = ''
+                    connection.habit_title = 'Error: Please re-connect :('
+                    connection.save()
+                    disabled_connections += 1
+                    continue
 
                 print(str(
                     connection.id) + ' ' + connection.list_title + ' -> ' + connection.habit_id + ': ' + habit_id + ' ' + habit_title)
@@ -50,3 +62,4 @@ class Command(BaseCommand):
 
         print('Active connections before and after:', active_connections, Connection.objects.filter(is_active=True).count())
         print('Modified connections: ', modified_connections)
+        print('Disabled connections: ', disabled_connections)

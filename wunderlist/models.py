@@ -39,7 +39,6 @@ class Connection(models.Model):
     list_id = models.IntegerField(_('List ID'))
     list_title = models.CharField(_('List Title'), max_length=255, blank=True)
     webhook_id = models.IntegerField(_('Webhook ID'), default=-1, blank=True)
-    #habit = models.CharField(_('Habit'), max_length=255, blank=True, null=True)
     habit_id = models.CharField(_('Habit ID'), max_length=255, blank=True, null=True)
     habit_title = models.CharField(_('Habit Title'), max_length=255, blank=True, null=True)
     token = models.CharField(_('Token'), max_length=255)
@@ -96,7 +95,8 @@ class Connection(models.Model):
 
         self.delete_webhook()
         self.list_title = ''
-        self.habit = ''
+        self.habit_id = ''
+        self.habit_title = ''
         self.owner = None
         self.is_active = False
         self.save()
