@@ -82,6 +82,23 @@ class HabiticaApi(hlib.api.Habitica):
 
         return user_details
 
+    def get_habits(self):
+        return self.user.tasks(type='habits')
+
+    def get_habits_list_choices(self):
+        """
+        Returns a tuple with the available habits (possibly empty) and a boolean indicating the success of the api request.
+        """
+
+        habits = self.get_habits()
+
+        if habits is None:
+            return [], False
+
+        choices = [(l['id'], l['text']) for l in habits]
+        choices = sorted(choices, key=lambda x: x[1])
+        return choices, True
+
     def post_task(self, task_id, up=True):
         """
         Up- or down-scores a task specified by the task_id.

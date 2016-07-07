@@ -39,7 +39,9 @@ class Connection(models.Model):
     list_id = models.IntegerField(_('List ID'))
     list_title = models.CharField(_('List Title'), max_length=255, blank=True)
     webhook_id = models.IntegerField(_('Webhook ID'), default=-1, blank=True)
-    habit = models.CharField(_('Habit'), max_length=255, default='productivity')
+    #habit = models.CharField(_('Habit'), max_length=255, blank=True, null=True)
+    habit_id = models.CharField(_('Habit ID'), max_length=255, blank=True, null=True)
+    habit_title = models.CharField(_('Habit Title'), max_length=255, blank=True, null=True)
     token = models.CharField(_('Token'), max_length=255)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='connections', blank=True, null=True)
     tasks_completed = models.IntegerField(_('Tasks completed'), default=0)
@@ -62,7 +64,7 @@ class Connection(models.Model):
         self.tasks_completed += 1
         self.last_upscored = timezone.now()
         self.save()
-        return api.post_task(self.habit)
+        return api.post_task(self.habit_id)
 
     def create_webhook(self):
         """
