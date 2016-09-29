@@ -1,6 +1,6 @@
-Django==1.9.8
-requests==2.10.0
-django-bootstrap3==7.0.1
+Django==1.9.10
+requests==2.11.1
+django-bootstrap3==7.1.0
 gunicorn==19.6.0
 
 # Hotfix: use custom fork until the Habitica API v3 is officially supported
