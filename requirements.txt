@@ -1,5 +1,5 @@
-Django==1.10.3
-requests==2.11.1
-django-bootstrap3==7.1.0
-gunicorn==19.6.0
-habitica==0.0.15
+Django==1.10.6
+requests==2.13.0
+django-bootstrap3==8.2.1
+gunicorn==19.7.1
+habitica==0.0.16
