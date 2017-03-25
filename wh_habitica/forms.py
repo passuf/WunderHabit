@@ -34,12 +34,11 @@ class AuthForm(forms.ModelForm):
         if not user_details or cleaned_data['user_id'] != user_details[default.JSON_ID]:
             raise forms.ValidationError(self.AUTH_ERROR)
 
-        # Get user details
+        # Get optional user details
         try:
             self.instance.name = user_details[default.JSON_NAME]
             self.instance.email = user_details[default.JSON_EMAIL]
         except (ValueError, KeyError):
             logger.exception('Could not get user details: %s', str(user_details))
-            raise forms.ValidationError(self.HABITICA_ERROR)
 
         return cleaned_data

@@ -6,6 +6,7 @@ import responses
 from wh_habitica import default
 from wh_habitica.forms import AuthForm
 from wunderhabit.factories import UserFactory
+from wh_habitica.tests import utils
 
 logging.disable(logging.CRITICAL)
 
@@ -19,30 +20,21 @@ def get_user_callback(request):
         })
 
     if request.headers.get(default.AUTH_HEADER_CLIENT) == 'facebook_auth':
-        # Facebook user can chose to expose a bunch of things, we'll test for name & email:
-        # https://github.com/HabitRPG/habitrpg/blob/44dd6674d18906047c452b7375b522e579c489e3/website/src/models/user.js#L504
-        user = {default.JSON_FORMAT_JSON: dict(
-            name=USER_DICT['username'], email=USER_DICT['email']
-        )}
-        data = {
-            'id': request.headers.get(default.AUTH_HEADER_CLIENT),
-            'auth': {
-                'local': {},
-                'facebook': user}}
+        data = utils.API_USER_FACEBOOK
+        data[default.JSON_ID] = request.headers.get(default.AUTH_HEADER_CLIENT)
 
-    elif request.headers.get(default.AUTH_HEADER_CLIENT) == 'facebook_fail?':
-        data = {
-            'id': request.headers.get(default.AUTH_HEADER_CLIENT),
-            'auth': {
-                'local': {},
-                'facebook': USER_DICT}}
+    elif request.headers.get(default.AUTH_HEADER_CLIENT) == 'google_auth':
+        data = utils.API_USER_FACEBOOK
+        data[default.JSON_ID] = request.headers.get(default.AUTH_HEADER_CLIENT)
+
+    elif request.headers.get(default.AUTH_HEADER_CLIENT) == 'auth_provider_fail?':
+        data = utils.API_USER_INVALID
+        data[default.JSON_ID] = request.headers.get(default.AUTH_HEADER_CLIENT)
 
     else:
-        data = {
-            'id': request.headers.get(default.AUTH_HEADER_CLIENT),
-            'auth': {
-                'facebook': {},
-                'local': USER_DICT}}
+        # Local auth provider
+        data = utils.API_USER
+        data[default.JSON_ID] = request.headers.get(default.AUTH_HEADER_CLIENT)
 
     return 200, {}, json.dumps({'data': data})
 
@@ -74,11 +66,10 @@ def test_auth_error(get_user):
 
 
 @responses.activate
-def test_unsupported_field_change(get_user):
-    # all good on our end, but server now also supports twitter users
-    res = AuthForm(data=dict(user_id='facebook_fail?', api_token='correct'))
-    assert not res.is_valid()
-    assert res.errors == {'__all__': [AuthForm.HABITICA_ERROR]}
+def test_no_user_details(get_user):
+    # We still want to accept users which do not expose further user details
+    res = AuthForm(data=dict(user_id='auth_provider_fail?', api_token='correct'))
+    assert res.is_valid()
 
 
 @responses.activate
@@ -95,8 +86,8 @@ def test_local_auth_user(get_user):
     # good local api auth result
     res = AuthForm(data=dict(user_id='local_auth', api_token='correct'))
     assert res.is_valid(), 'form errors: %s' % res.errors
-    assert res.instance.name == 'tester'
-    assert res.instance.email == 'foo@bar.com'
+    assert res.instance.name == utils.LOCAL_NAME
+    assert res.instance.email == utils.USER_EMAIL
 
     # assert save returned valid object for saving
     owner = UserFactory.create()
@@ -111,8 +102,20 @@ def test_facebook_auth_user(get_user):
     # good local api auth result
     res = AuthForm(data=dict(user_id='facebook_auth', api_token='correct'))
     assert res.is_valid(), 'form errors: %s' % res.errors
-    assert res.instance.name == 'tester'
-    assert res.instance.email == 'foo@bar.com'
+
+    # assert save returned valid object for saving
+    owner = UserFactory.create()
+    instance = res.save(commit=False)
+    instance.owner = owner
+    instance.save()
+
+
+@responses.activate
+@pytest.mark.django_db
+def test_google_auth_user(get_user):
+    # good local api auth result
+    res = AuthForm(data=dict(user_id='google_auth', api_token='correct'))
+    assert res.is_valid(), 'form errors: %s' % res.errors
 
     # assert save returned valid object for saving
     owner = UserFactory.create()

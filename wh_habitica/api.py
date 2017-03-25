@@ -67,14 +67,22 @@ class HabiticaApi(hlib.api.Habitica):
             except Exception:
                 logger.exception('Could not parse Habitica user with local auth: ' + str(user))
 
-        elif default.JSON_FACEBOOK in auth_details:
+        elif default.JSON_FACEBOOK in auth_details and auth_details[default.JSON_FACEBOOK]:
             # User is authenticated with facebook
             try:
-                auth_facebook = auth_details[default.JSON_FACEBOOK][default.JSON_FORMAT_JSON]
-                user_details[default.JSON_EMAIL] = auth_facebook[default.JSON_EMAIL]
-                user_details[default.JSON_NAME] = auth_facebook[default.JSON_NAME]
+                auth_facebook = auth_details[default.JSON_FACEBOOK]
+                user_details[default.JSON_NAME] = auth_facebook[default.JSON_DISPLAY_NAME]
             except Exception:
                 logger.exception('Could not parse Habitica user with Facebook auth: ' + str(user))
+
+        elif default.JSON_GOOGLE in auth_details and auth_details[default.JSON_GOOGLE]:
+            # User is authenticated with google
+            try:
+                auth_google = auth_details[default.JSON_GOOGLE]
+                user_details[default.JSON_NAME] = auth_google[default.JSON_DISPLAY_NAME]
+                user_details[default.JSON_EMAIL] = auth_google[default.JSON_GOOGLE_EMAILS][0][default.JSON_VALUE]
+            except Exception:
+                logger.exception('Could not parse Habitica user with Google auth: ' + str(user))
 
         else:
             # No valid authentication provider found

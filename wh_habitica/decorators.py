@@ -15,7 +15,5 @@ def has_habitica(view_func):
             return redirect('habitica:index')
         if not user.habitica.user_id:
             return redirect('habitica:index')
-        if not user.habitica.email:
-            return redirect('habitica:index')
         return view_func(request, *args, **kwargs)
     return _wrapped_view_func
