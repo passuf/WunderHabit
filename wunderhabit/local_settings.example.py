@@ -1,4 +1,5 @@
 import os
+import rollbar
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -34,3 +35,12 @@ EMAIL_HOST_PASSWORD = 'your_api_key'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
+
+# Rollbar Settings
+ROLLBAR = {
+    'access_token': 'POST_SERVER_ITEM_ACCESS_TOKEN',
+    'environment': 'development',
+    'branch': 'master',
+    'root': BASE_DIR,
+}
+rollbar.init(**ROLLBAR)
