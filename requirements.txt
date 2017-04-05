@@ -1,5 +1,5 @@
 Django==1.11
 requests==2.13.0
-django-bootstrap3==8.2.1
+django-bootstrap3==8.2.2
 gunicorn==19.7.1
 habitica==0.0.16
