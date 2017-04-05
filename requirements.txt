@@ -3,3 +3,4 @@ requests==2.13.0
 django-bootstrap3==8.2.2
 gunicorn==19.7.1
 habitica==0.0.16
+rollbar==0.13.11
