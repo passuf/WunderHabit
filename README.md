@@ -1,18 +1,9 @@
-[![Build Status](https://travis-ci.org/passuf/WunderHabit.svg?branch=master)](https://travis-ci.org/passuf/WunderHabit) 
-[![Coverage Status](https://coveralls.io/repos/passuf/WunderHabit/badge.svg?branch=master&service=github)](https://coveralls.io/github/passuf/WunderHabit?branch=master)
-[![Dependency Status](https://gemnasium.com/passuf/WunderHabit.svg)](https://gemnasium.com/passuf/WunderHabit)
-[![Join the chat at https://gitter.im/passuf/WunderHabit](https://badges.gitter.im/passuf/WunderHabit.svg)](https://gitter.im/passuf/WunderHabit?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 # WunderHabit
 Level up in [Habitica](https://habitica.com) by completing todo's in [Wunderlist](https://wunderlist.com).
 
-## Getting Started
-There is a running instance hosted on my own server:
-[https://wunderhabit.passuf.ch](https://wunderhabit.passuf.ch)
-
 Please note, this is neither an official Wunderlist nor an official Habitica project. Please use WunderHabit at your own risk!
 
-## Run It on Your Own Server
+## Getting Started
 WunderHabit is a simple [Django](https://djangoproject.com) application written in Python, which you can run on your own server.
 
 If you are not familiar with [Django](https://djangoproject.com), you might first head over to the [Getting Started with Django](https://www.djangoproject.com/start/) docs.
